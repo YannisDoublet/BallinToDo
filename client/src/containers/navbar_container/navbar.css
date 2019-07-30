@@ -1,0 +1,37 @@
+#navbar_wrapper {
+    height: 4.5rem;
+    width: 100%;
+    background: transparent;
+    display: inline-grid;
+    grid-template-columns: 25% 50% 12.5% 12.5%;
+    grid-template-rows: 4vh;
+    grid-template-areas:
+            "logo input addTodo utils";
+    /*justify-content: space-between;*/
+    padding: 0.5rem 0;
+    box-sizing: border-box;
+}
+
+#logo_container {
+    /*width: 25%;*/
+    grid-area: logo;
+    align-self: center;
+}
+
+#logo {
+    padding: 0 0.5rem;
+}
+
+@media screen and (max-width: 600px) {
+    #navbar_wrapper {
+        height: 6.5rem;
+        display: inline-grid;
+        grid-template-columns: 1fr 0.5fr;
+        grid-template-rows: 3rem 3rem;
+        grid-template-areas:
+                "logo utils"
+                "input addTodo";
+        /*justify-content: space-between;*/
+        padding: 0.5rem 0 0 0;
+    }
+}

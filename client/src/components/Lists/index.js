@@ -6,21 +6,29 @@ import './lists.css'
 
 class List extends Component {
     state = {
-        todo: []
+        todo: [],
+        scrollDown: false
     };
 
     componentDidMount() {
         this.props.dispatch(refreshTodo());
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevState.todo.length && this.state.scrollDown) {
+            let objDiv = document.getElementById("todo_container");
+            objDiv.scrollTop = objDiv.scrollHeight;
+        }
+    }
+
     componentWillReceiveProps(nextProps, nextContext) {
         if (nextProps.list !== this.props.list) {
             this.setState({
                 todo: nextProps.list
-            })
+            });
         } else if (nextProps.priority !== this.props.priority || nextProps.status !== this.props.status
             || nextProps.erase !== this.props.erase) {
-            this.updateTodo();
+            this.props.dispatch(refreshTodo());
             let dropdowns = [...document.querySelectorAll('.dropdown')];
             dropdowns.map(dropdown => {
                 return !dropdown.classList.contains('none') ? dropdown.classList.add('none') : undefined;
@@ -34,7 +42,13 @@ class List extends Component {
     };
 
     updateTodo = () => {
+        let {scrollDown} = this.state;
         this.props.dispatch(refreshTodo());
+        if (scrollDown === false) {
+            this.setState({
+                scrollDown: true
+            })
+        }
     };
 
     displayTodo = (type, list) => {

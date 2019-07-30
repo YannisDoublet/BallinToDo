@@ -9,8 +9,10 @@ const TodoInput = (props) => {
     const response = useSelector(state => state.todo.response);
 
     useEffect(() => {
-        update();
-        setInput('');
+        if (response) {
+            update();
+            setInput('');
+        }
     }, [update, response]);
 
     const handleSubmit = (e) => {

@@ -1,14 +1,20 @@
 #home_wrapper {
-    height: 100vh;
-    padding: 0 5rem;
     background: linear-gradient(to left bottom, #5f2c82, #49a09d);
+}
+
+#list_wrapper {
+    height: calc(100vh - 4.5rem);
+    padding: 0 5rem;
     display: flex;
     align-items: center;
     justify-content: space-evenly;
 }
 
 @media screen and (max-width: 600px) {
-   #home_wrapper {
+   #list_wrapper {
+       height: calc(100vh - 8rem);
+       padding: 0.75rem;
        flex-direction: column;
+       overflow-y: scroll;
    }
 }

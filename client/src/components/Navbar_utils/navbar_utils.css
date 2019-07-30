@@ -1,0 +1,56 @@
+#addTodo_wrapper {
+    grid-area: addTodo;
+    width: 100%;
+    justify-self: center;
+    align-self: center;
+}
+
+#utils_wrapper {
+    grid-area: utils;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+#add_todo_button {
+    border-radius: 20px;
+    width: 50%;
+    border: none;
+    height: 2.5rem;
+    background: white;
+    font-family: 'Roboto', sans-serif;
+    cursor: pointer;
+    outline: none;
+    box-shadow: 0 8px 16px 0 #00000040, inset 0 -1px 3px 0 #00000066;
+    transition: box-shadow 0.2s;
+}
+
+#add_todo_button:hover {
+    box-shadow: 0 16px 32px 0 #00000040, inset 0 -1px 3px 0 #00000066;
+}
+
+#todo-list {
+    height: 1.5rem;
+    width: 1.5rem;
+    background: url('/assets/list.svg') center no-repeat;
+    background-size: cover;
+    cursor: pointer;
+}
+
+#logout {
+    height: 1.5rem;
+    width: 1.5rem;
+    background: url('/assets/logout.svg') center no-repeat;
+    background-size: cover;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 600px) {
+    #add_todo_button {
+        grid-area: addTodo;
+        /*border-radius: 5px;*/
+        width: 90%;
+        height: 2rem;
+        align-self: center;
+    }
+}

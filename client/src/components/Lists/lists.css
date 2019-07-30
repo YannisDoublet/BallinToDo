@@ -8,7 +8,7 @@
     width: 20rem;
     background-color: gainsboro;
     border-radius: 5px;
-    margin: 0 1.5rem;
+    margin: 2rem;
 }
 
 #title {
@@ -17,9 +17,8 @@
 }
 
 #todo_container {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
+    overflow-y: scroll;
+    max-height: 50vh;
 }
 
 #todo_info_container {
@@ -97,6 +96,7 @@
     background-color: transparent;
     font-family: 'Roboto', sans-serif;
     width: 100%;
+    outline: none;
 }
 
 .todo_message {
@@ -110,4 +110,8 @@
     border-radius: 5px;
     background-color: whitesmoke;
     word-wrap: break-word;
+}
+
+.todo:last-child:not(:first-child) .dropdown {
+    top: -100px;
 }
