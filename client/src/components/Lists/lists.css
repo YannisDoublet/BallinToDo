@@ -1,0 +1,113 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:600|Roboto&display=swap');
+
+.none {
+    display: none;
+}
+
+.list_container {
+    width: 20rem;
+    background-color: gainsboro;
+    border-radius: 5px;
+    margin: 0 1.5rem;
+}
+
+#title {
+    margin: 0.5rem 0 0 0.75rem;
+    font-family: 'Open Sans', sans-serif;
+}
+
+#todo_container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+#todo_info_container {
+    width: 100%;
+    display: flex;
+    position: relative;
+    justify-content: space-between;
+}
+
+.dropdown {
+    position: absolute;
+    top: 17px;
+    right: 0;
+    background-color: white;
+    border-radius: 5px;
+    border: solid 1px lightgray;
+    z-index: 2;
+}
+
+.dropdown_choice {
+    padding: 0.5rem;
+    cursor: pointer;
+    font-family: 'Roboto', sans-serif;
+}
+
+.dropdown_choice:hover {
+    background-color: lightgray;
+}
+
+.dropdown_choice:not(:last-child) {
+    border-bottom: solid 1px lightgray;
+}
+
+.more {
+    width: 1.5rem;
+    background: url('/assets/more.svg') center no-repeat;
+    background-size: cover;
+    cursor: pointer;
+}
+
+.urgent_todo {
+    padding: 0.20rem;
+    margin: 0.10rem;
+    border-radius: 5px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.75rem;
+    color: white;
+    background-color: red;
+}
+
+.priority_todo {
+    padding: 0.20rem;
+    margin: 0.10rem;
+    border-radius: 5px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.75rem;
+    background-color: lightsalmon;
+}
+
+.not_priority_todo {
+    padding: 0.20rem;
+    margin: 0.10rem;
+    border-radius: 5px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.75rem;
+    background-color: lightgreen;
+}
+
+#todo_form {
+    margin: 0.5rem;
+}
+
+#todo_input {
+    border: none;
+    background-color: transparent;
+    font-family: 'Roboto', sans-serif;
+    width: 100%;
+}
+
+.todo_message {
+    padding-top: 0.33rem;
+    font-family: 'Roboto', sans-serif;
+}
+
+.todo {
+    margin: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 5px;
+    background-color: whitesmoke;
+    word-wrap: break-word;
+}
