@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import TodoInput from '../Todo_input'
-import {refreshTodo, changePriority, changeStatus, eraseTodo} from '../../actions/todoActions'
+import {getTodo, changePriority, changeStatus, eraseTodo} from '../../actions/todoActions'
 import './lists.css'
 
 class List extends Component {
@@ -11,7 +11,7 @@ class List extends Component {
     };
 
     componentDidMount() {
-        this.props.dispatch(refreshTodo());
+        // this.props.dispatch(refreshTodo(localStorage.getItem('T')));
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -23,12 +23,18 @@ class List extends Component {
 
     componentWillReceiveProps(nextProps, nextContext) {
         if (nextProps.list !== this.props.list) {
+            this.props.dispatch(getTodo(nextProps.list[nextProps.active].listId));
+        } else if (nextProps.active !== this.props.active) {
+            if (this.props.list) {
+                this.props.dispatch(getTodo(this.props.list[nextProps.active].listId));
+            }
+        } else if (nextProps.todo !== this.props.todo) {
             this.setState({
-                todo: nextProps.list
-            });
+                todo: nextProps.todo
+            })
         } else if (nextProps.priority !== this.props.priority || nextProps.status !== this.props.status
             || nextProps.erase !== this.props.erase) {
-            this.props.dispatch(refreshTodo());
+            this.props.dispatch(getTodo(this.props.list[this.props.active].listId));
             let dropdowns = [...document.querySelectorAll('.dropdown')];
             dropdowns.map(dropdown => {
                 return !dropdown.classList.contains('none') ? dropdown.classList.add('none') : undefined;
@@ -43,7 +49,7 @@ class List extends Component {
 
     updateTodo = () => {
         let {scrollDown} = this.state;
-        this.props.dispatch(refreshTodo());
+        this.props.dispatch(getTodo(this.props.list[this.props.active].listId));
         if (scrollDown === false) {
             this.setState({
                 scrollDown: true
@@ -79,13 +85,14 @@ class List extends Component {
     };
 
     render() {
+        let listId = this.props.list && this.props.active !== undefined ? this.props.list[this.props.active].listId : undefined;
         return (
             <div className={'list_container'}>
                 <div id={'title'}>{this.props.type}</div>
                 <div id={'todo_container'}>
                     {this.displayTodo(this.props.type, this.state.todo)}
                 </div>
-                {this.props.type === 'TO-DO' && <TodoInput update={this.updateTodo}/>}
+                {this.props.type === 'TO-DO' && <TodoInput update={this.updateTodo} listId={listId}/>}
             </div>
         )
     }
@@ -93,14 +100,18 @@ class List extends Component {
 
 function mapStateToProps(state) {
     let list = state.todo.todoList;
+    let active = state.todo.active;
+    let todo = state.todo.todo;
     let priority = state.todo.priority;
     let status = state.todo.status;
     let erase = state.todo.erase;
     return {
         list,
+        active,
         priority,
         status,
-        erase
+        erase,
+        todo
     };
 }
 

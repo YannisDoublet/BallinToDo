@@ -1,3 +1,11 @@
+.display {
+    display: block !important;
+}
+
+.valid {
+    color: lightseagreen !important;
+}
+
 #sign_up_container {
     width: 100%;
     display: flex;
@@ -15,6 +23,24 @@
     font-size: 1.15rem;
     padding: 0.75rem;
     outline: none;
+}
+
+#password_instructions {
+    width: 75%;
+    text-align: start;
+    font-size: 0.8rem;
+    display: none;
+}
+
+#password_instructions p {
+    font-family: 'Roboto', sans-serif;
+    margin: 0.25rem 0;
+    font-style: italic;
+    color: #888888;
+}
+
+#password_instructions .fa-check {
+    margin-right: 0.25rem;
 }
 
 #sign_up_button {

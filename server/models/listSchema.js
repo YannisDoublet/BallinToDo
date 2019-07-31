@@ -1,26 +1,21 @@
 const mongoose = require('mongoose');
 
-let todoSchema = new mongoose.Schema({
+let listSchema = new mongoose.Schema({
+    ownerId: {
+        type: String,
+        require: true,
+        trim: true
+    },
     listId: {
         type: String,
         require: true,
         trim: true
     },
-    message: {
-        type: String,
-        require: true,
-        trim: true
-    },
-    importance: {
-        type: String,
-        require: true,
-        trim: true
-    },
-    status: {
+    title: {
         type: String,
         require: true,
         trim: true
     }
 });
 
-module.exports = mongoose.model('Todo', todoSchema);
+module.exports = mongoose.model('List', listSchema);

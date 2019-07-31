@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 
 let userSchema = new mongoose.Schema({
-    username: {
+    accId: {
         type: String,
         require: true,
         trim: true
@@ -15,7 +16,32 @@ let userSchema = new mongoose.Schema({
         type: String,
         require: true,
         trim: true
+    },
+    validationToken: {
+        type: String,
+        require: true,
+        trim: true
+    },
+    validated: {
+        type: Boolean,
+        require: true
     }
+});
+
+userSchema.pre('save', function(next) {
+    const user = this;
+    bcrypt.genSalt(10, (error, salt) => {
+        if (error) {
+            return next(error);
+        }
+        bcrypt.hash(user.password, salt, (error, hash) => {
+            if (error) {
+                return next(error);
+            }
+            user.password = hash;
+            next();
+        });
+    });
 });
 
 module.exports = mongoose.model('User', userSchema);
