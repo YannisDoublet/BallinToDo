@@ -27,8 +27,11 @@ class List extends Component {
                 this.props.dispatch(getTodo(nextProps.list[nextProps.active].listId));
             }
         } else if (nextProps.active !== this.props.active) {
-            if (this.props.list) {
-                this.props.dispatch(getTodo(this.props.list[nextProps.active].listId));
+            if (this.props.list && nextProps.active) {
+                let listId = this.props.list[nextProps.active] ? this.props.list[nextProps.active].listId : null;
+                if (listId) {
+                    this.props.dispatch(getTodo(this.props.list[nextProps.active].listId));
+                }
             }
         } else if (nextProps.todo !== this.props.todo) {
             this.setState({
@@ -60,30 +63,38 @@ class List extends Component {
     };
 
     displayTodo = (type, list) => {
-        return list.map((todo, i) => {
-            let importance = todo.importance.charAt(0).toUpperCase() + todo.importance.slice(1).replace(/[_]+/gm, ' ');
-            if (type === todo.status) {
-                return (
-                    <div className={'todo'} key={i}>
-                        <div id={'todo_info_container'}>
-                            <div className={`${todo.importance}_todo`}>{importance}</div>
-                            <div id={i} className={'more'} onClick={(e) => this.toggleDropdown(e)}/>
-                            <div id={`dropdown_${i}`} className={'dropdown clearfix none'}>
-                                <p className={'dropdown_choice'}
-                                   onClick={() => this.props.dispatch(changePriority(todo.message))}>Change priority</p>
-                                <p className={'dropdown_choice'}
-                                   onClick={() => this.props.dispatch(changeStatus(todo.message))}>Move category</p>
-                                <p className={'dropdown_choice'}
-                                   onClick={() => this.props.dispatch(eraseTodo(todo.message))}>Erase to-do</p>
+        if (list) {
+            return list.map((todo, i) => {
+                let importance = todo.importance.charAt(0).toUpperCase() + todo.importance.slice(1).replace(/[_]+/gm, ' ');
+                if (type === todo.status) {
+                    return (
+                        <div className={'todo'} key={i}>
+                            <div id={'todo_info_container'}>
+                                <div className={`${todo.importance}_todo`}>{importance}</div>
+                                <div id={i} className={'more'} onClick={(e) => this.toggleDropdown(e)}/>
+                                <div id={`dropdown_${i}`} className={'dropdown clearfix none'}>
+                                    <p className={'dropdown_choice'}
+                                       onClick={() => this.props.dispatch(changePriority(todo.message, todo.listId))}>
+                                        Change priority
+                                    </p>
+                                    <p className={'dropdown_choice'}
+                                       onClick={() => this.props.dispatch(changeStatus(todo.message, todo.listId))}>
+                                        Move category
+                                    </p>
+                                    <p className={'dropdown_choice'}
+                                       onClick={() => this.props.dispatch(eraseTodo(todo.message, todo.listId))}>
+                                        Erase to-do
+                                    </p>
+                                </div>
                             </div>
+                            <p className={'todo_message'}>{todo.message}</p>
                         </div>
-                        <p className={'todo_message'}>{todo.message}</p>
-                    </div>
-                )
-            } else {
-                return null;
-            }
-        })
+                    )
+                } else {
+                    return null;
+                }
+            })
+        }
     };
 
     render() {

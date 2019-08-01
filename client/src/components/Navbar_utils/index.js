@@ -31,7 +31,7 @@ const NavbarUtils = (props) => {
             dispatch(getList(token)).then(() => {
                 setTimeout(() => {
                     setActiveList(addListsResponse.listLength);
-                }, 20)
+                }, 150)
             })
         }
     }, [dispatch, token, addListsResponse]);
@@ -68,11 +68,13 @@ const NavbarUtils = (props) => {
     };
 
     const displayList = (lists) => {
-        return lists.map((list, i) => {
-            return (
-                <p key={i} id={i} onClick={(e) => changeList(e)}>{list.title}</p>
-            )
-        });
+        if (lists) {
+            return lists.map((list, i) => {
+                return (
+                    <p key={i} id={i} onClick={(e) => changeList(e)}>{list.title}</p>
+                )
+            });
+        }
     };
 
     const showDropdown = () => {

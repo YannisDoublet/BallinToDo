@@ -18,7 +18,9 @@ const NavbarInput = (props) => {
     }, [list, active]);
 
     useEffect(() => {
-        dispatch(getList(localStorage.getItem('T')));
+        if (title) {
+            dispatch(getList(localStorage.getItem('T')));
+        }
     }, [dispatch, title]);
 
     const submitTitle = (e) => {

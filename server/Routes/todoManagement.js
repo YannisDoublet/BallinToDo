@@ -58,38 +58,38 @@ module.exports = {
         }
     },
     changePriority: (req, res) => {
-        let {content} = req.body;
+        let {content, listId} = req.body;
         let data;
 
-        Todo.findOne({message: content}, async (err, doc) => {
+        Todo.findOne({listId: listId, message: content}, async (err, doc) => {
             if (err) {
                 return res.status(200).send('An error occurred...');
             } else {
                 if (doc.importance === 'not_priority') {
-                    data = await Todo.findOneAndUpdate({message: content}, {importance: 'priority'});
+                    data = await Todo.findOneAndUpdate({listId: listId, message: content}, {importance: 'priority'});
                 } else if (doc.importance === 'priority') {
-                    data = await Todo.findOneAndUpdate({message: content}, {importance: 'urgent'});
+                    data = await Todo.findOneAndUpdate({listId: listId, message: content}, {importance: 'urgent'});
                 } else {
-                    data = await Todo.findOneAndUpdate({message: content}, {importance: 'not_priority'});
+                    data = await Todo.findOneAndUpdate({listId: listId, message: content}, {importance: 'not_priority'});
                 }
                 return res.status(200).send(data);
             }
         });
     },
     changeStatus: (req, res) => {
-        let {content} = req.body;
+        let {content, listId} = req.body;
         let data;
 
-        Todo.findOne({message: content}, async (err, doc) => {
+        Todo.findOne({listId: listId, message: content}, async (err, doc) => {
             if (err) {
                 return res.status(200).send('An error occurred...');
             } else {
                 if (doc.status === 'TO-DO') {
-                    data = await Todo.findOneAndUpdate({message: content}, {status: 'DOING'});
+                    data = await Todo.findOneAndUpdate({listId: listId, message: content}, {status: 'DOING'});
                 } else if (doc.status === 'DOING') {
-                    data = await Todo.findOneAndUpdate({message: content}, {status: 'DONE'});
+                    data = await Todo.findOneAndUpdate({listId: listId, message: content}, {status: 'DONE'});
                 } else {
-                    data = await Todo.findOneAndUpdate({message: content}, {status: 'TO-DO'});
+                    data = await Todo.findOneAndUpdate({listId: listId, message: content}, {status: 'TO-DO'});
                 }
                 return res.status(200).send(data);
             }
@@ -136,9 +136,9 @@ module.exports = {
         }
     },
     eraseTodo: (req, res) => {
-        let {content} = req.body;
+        let {content, listId, type} = req.body;
 
-        Todo.findOneAndDelete({message: content}, (err, doc) => {
+        Todo.findOneAndDelete({listId: listId, message: content, type: type}, (err, doc) => {
             if (err) {
                 return res.status(200).send('An error occured...');
             } else {
@@ -153,7 +153,7 @@ module.exports = {
             let id = decodeToken(token).token;
             if (id && id.length) {
                 List.findOneAndDelete({listId: listId}, (err, doc) => {
-                    Todo.findByIdAndDelete({listId: listId}, (err, doc) => {
+                    Todo.remove({listId: listId}, (err, doc) => {
                         return res.status(200).json({active: 0})
                     })
                 })

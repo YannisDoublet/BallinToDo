@@ -53,8 +53,8 @@ export const changeListTitle = (title, listId) => dispatch => {
         })
 };
 
-export const changePriority = (content) => dispatch => {
-    axios.post('/api/changePriority', {content})
+export const changePriority = (content, listId) => dispatch => {
+    axios.post('/api/changePriority', {content, listId})
         .then(res => {
            return dispatch({
                type: CHANGE_PRIORITY,
@@ -63,8 +63,8 @@ export const changePriority = (content) => dispatch => {
         });
 };
 
-export const changeStatus = (content) => dispatch => {
-    axios.post('/api/changeStatus', {content})
+export const changeStatus = (content, listId, type) => dispatch => {
+    axios.post('/api/changeStatus', {content, listId, type})
         .then(res => {
             return dispatch({
                 type: CHANGE_STATUS,
@@ -73,8 +73,8 @@ export const changeStatus = (content) => dispatch => {
         });
 };
 
-export const eraseTodo = (content) => dispatch => {
-    axios.post('/api/eraseTodo', {content})
+export const eraseTodo = (content, listId, type) => dispatch => {
+    axios.post('/api/eraseTodo', {content, listId, type})
         .then(res => {
             return dispatch({
                 type: ERASE_TODO,
