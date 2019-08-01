@@ -18,7 +18,6 @@ const SignIn = (props) => {
     useEffect(() => {
         if (sign_in) {
             if (sign_in.type && sign_in.type === 'error' && sign_in.status && sign_in.message && sign_in.message.length) {
-                console.log(sign_in);
                 handleAlert(sign_in);
             } else if (sign_in.type === 'success' && sign_in.token && sign_in.token.length) {
                 localStorage.setItem('T', sign_in.token);

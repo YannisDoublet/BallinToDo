@@ -7,7 +7,7 @@ export default function(state={}, action) {
         case SIGN_IN:
             return {...state, sign_in: action.payload};
         case LOGOUT:
-            return {...state, sign_in: null};
+            return {state: {}};
         default:
             return state;
     }

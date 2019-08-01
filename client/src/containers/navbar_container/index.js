@@ -5,7 +5,7 @@ import NavbarUtils from '../../components/Navbar_utils'
 import './navbar.css'
 
 const Navbar = (props) => {
-    let [connection_status, setConnectionStatus] = useState(localStorage.getItem('T'));
+    let connection_status = localStorage.getItem('T');
     let [redirect, setRedirect] = useState(false);
 
 

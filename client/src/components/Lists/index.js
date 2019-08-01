@@ -15,7 +15,7 @@ class List extends Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevState.todo.length && this.state.scrollDown) {
+        if (prevState.todo.length !== this.state.todo.length && this.state.scrollDown) {
             let objDiv = document.getElementById("todo_container");
             objDiv.scrollTop = objDiv.scrollHeight;
         }
@@ -23,7 +23,9 @@ class List extends Component {
 
     componentWillReceiveProps(nextProps, nextContext) {
         if (nextProps.list !== this.props.list) {
-            this.props.dispatch(getTodo(nextProps.list[nextProps.active].listId));
+            if (nextProps.list !== 'Error' && nextProps.list) {
+                this.props.dispatch(getTodo(nextProps.list[nextProps.active].listId));
+            }
         } else if (nextProps.active !== this.props.active) {
             if (this.props.list) {
                 this.props.dispatch(getTodo(this.props.list[nextProps.active].listId));
@@ -66,7 +68,7 @@ class List extends Component {
                         <div id={'todo_info_container'}>
                             <div className={`${todo.importance}_todo`}>{importance}</div>
                             <div id={i} className={'more'} onClick={(e) => this.toggleDropdown(e)}/>
-                            <div id={`dropdown_${i}`} className={'dropdown none'}>
+                            <div id={`dropdown_${i}`} className={'dropdown clearfix none'}>
                                 <p className={'dropdown_choice'}
                                    onClick={() => this.props.dispatch(changePriority(todo.message))}>Change priority</p>
                                 <p className={'dropdown_choice'}
@@ -85,14 +87,16 @@ class List extends Component {
     };
 
     render() {
+        let {todo} = this.state;
+        let {type} = this.props;
         let listId = this.props.list && this.props.active !== undefined ? this.props.list[this.props.active].listId : undefined;
         return (
             <div className={'list_container'}>
                 <div id={'title'}>{this.props.type}</div>
                 <div id={'todo_container'}>
-                    {this.displayTodo(this.props.type, this.state.todo)}
+                    {this.displayTodo(type, todo)}
                 </div>
-                {this.props.type === 'TO-DO' && <TodoInput update={this.updateTodo} listId={listId}/>}
+                <TodoInput update={this.updateTodo} listId={listId} type={this.props.type}/>
             </div>
         )
     }

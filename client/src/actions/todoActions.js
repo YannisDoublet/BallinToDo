@@ -1,10 +1,21 @@
 import axios from 'axios';
-import {ADD_TODO, GET_LIST, GET_TODO, CHANGE_LIST_TITLE, CHANGE_PRIORITY, CHANGE_STATUS, ERASE_TODO} from './types';
+import {ADD_LIST, ADD_TODO, GET_LIST, GET_TODO, CHANGE_LIST_TITLE,
+    CHANGE_PRIORITY, CHANGE_STATUS, ERASE_TODO, DELETE_LIST} from './types';
 
-export const addTodo = (value, listId) => dispatch => {
-    axios.post('/api/addTodo', {value, listId})
+export const addList = (token) => dispatch => {
+    axios.post('/api/addList', {token})
         .then(res => {
-            dispatch({
+            return dispatch({
+                type: ADD_LIST,
+                payload: res.data
+            })
+        })
+};
+
+export const addTodo = (value, listId, type) => dispatch => {
+    axios.post('/api/addTodo', {value, listId, type})
+        .then(res => {
+            return dispatch({
                 type: ADD_TODO,
                 payload: res.data
             });
@@ -12,13 +23,14 @@ export const addTodo = (value, listId) => dispatch => {
 };
 
 export const getList = (token) => dispatch => {
-    axios.get(`/api/getList?token=${token}`)
+    axios.post('/api/getList', {token})
         .then(res => {
-            return dispatch({
+            dispatch({
                 type: GET_LIST,
                 payload: res.data
             })
         });
+    return Promise.resolve();
 };
 
 export const getTodo = (listId) => dispatch => {
@@ -44,7 +56,7 @@ export const changeListTitle = (title, listId) => dispatch => {
 export const changePriority = (content) => dispatch => {
     axios.post('/api/changePriority', {content})
         .then(res => {
-           dispatch({
+           return dispatch({
                type: CHANGE_PRIORITY,
                payload: res.data
            })
@@ -54,7 +66,7 @@ export const changePriority = (content) => dispatch => {
 export const changeStatus = (content) => dispatch => {
     axios.post('/api/changeStatus', {content})
         .then(res => {
-            dispatch({
+            return dispatch({
                 type: CHANGE_STATUS,
                 payload: res.data
             })
@@ -64,10 +76,19 @@ export const changeStatus = (content) => dispatch => {
 export const eraseTodo = (content) => dispatch => {
     axios.post('/api/eraseTodo', {content})
         .then(res => {
-            dispatch({
+            return dispatch({
                 type: ERASE_TODO,
                 payload: res.data
             })
         });
 };
 
+export const deleteList = (token, listId) => dispatch => {
+    axios.post('/api/deleteList', {token, listId})
+        .then(res => {
+            return dispatch({
+                type: DELETE_LIST,
+                payload: res.data
+            })
+        })
+};

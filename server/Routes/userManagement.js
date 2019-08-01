@@ -23,7 +23,6 @@ module.exports = {
                     });
                     newUser.save(err => {
                         if (err) {
-                            console.log(err);
                             return res.status(200).json({
                                 status: true,
                                 type: 'error',

@@ -3,7 +3,7 @@ import {addTodo} from '../../actions/todoActions'
 import {useDispatch, useSelector} from "react-redux";
 
 const TodoInput = (props) => {
-    const {update, listId} = props;
+    const {update, listId, type} = props;
     const [input, setInput] = useState('');
     const dispatch = useDispatch();
     const response = useSelector(state => state.todo.response);
@@ -18,7 +18,7 @@ const TodoInput = (props) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (input && input.length) {
-            dispatch(addTodo(input, listId));
+            dispatch(addTodo(input, listId, type));
         }
     };
 

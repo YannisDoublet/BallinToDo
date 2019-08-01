@@ -3,10 +3,29 @@ const List = require('../models/listSchema');
 const {decodeToken} = require('../utils/jwtUtils');
 
 module.exports = {
-    addTodo: (req, res) => {
-        let {value, listId} = req.body;
+    addList: (req, res) => {
+        let {token} = req.body;
 
-        Todo.findOne({message: value}, async (err, todo) => {
+        if (token && token.length) {
+            let id = decodeToken(token).token;
+            if (id && id.length) {
+                const newList = new List({
+                    ownerId: id,
+                    listId: Math.random().toString(36).substr(2, 9),
+                    title: 'My awesome To-do List'
+                });
+                newList.save(() => {
+                    List.count({ownerId: id}, (err, count) => {
+                        return res.status(200).json({listLength: parseInt(count) - 1});
+                    })
+                })
+            }
+        }
+    },
+    addTodo: (req, res) => {
+        let {value, listId, type} = req.body;
+
+        Todo.findOne({listId: listId, message: value}, async (err, todo) => {
             if (err) throw err;
             if (!todo) {
                 try {
@@ -14,16 +33,14 @@ module.exports = {
                         listId: listId,
                         message: value,
                         importance: 'not_priority',
-                        status: 'TO-DO'
+                        status: type
                     });
                     let saveTodo = await newTodo.save();
                     return res.status(200).send(saveTodo);
                 } catch (err) {
-                    console.log('err' + err);
                     res.status(200).send(err);
                 }
             } else {
-                console.log('Todo already created');
                 return res.status(200).send('Todo already created !');
             }
         });
@@ -78,19 +95,8 @@ module.exports = {
             }
         });
     },
-    eraseTodo: (req, res) => {
-        let {content} = req.body;
-
-        Todo.findOneAndDelete({message: content}, (err, doc) => {
-            if (err) {
-                return res.status(200).send('An error occured...');
-            } else {
-                return res.status(200).send(doc);
-            }
-        });
-    },
     getList: (req, res) => {
-        let {token} = req.query;
+        let {token} = req.body;
 
         if (token && token.length) {
             let id = decodeToken(token).token;
@@ -104,10 +110,20 @@ module.exports = {
                             listId: Math.random().toString(36).substr(2, 9),
                             title: 'My awesome To-do'
                         });
-                        list.save();
+                        list.save(() => {
+                            List.find({ownerId: id}, (err, list) => {
+                                if (list.length) {
+                                    return res.status(200).send(list);
+                                }
+                            });
+                        })
                     }
                 })
+            } else {
+                return res.status(200).send('Error');
             }
+        } else {
+            return res.status(200).send('No token');
         }
     },
     getTodo: (req, res) => {
@@ -117,6 +133,33 @@ module.exports = {
             Todo.find({listId: listId}, (err, todo) => {
                 return res.status(200).send(todo);
             })
+        }
+    },
+    eraseTodo: (req, res) => {
+        let {content} = req.body;
+
+        Todo.findOneAndDelete({message: content}, (err, doc) => {
+            if (err) {
+                return res.status(200).send('An error occured...');
+            } else {
+                return res.status(200).send(doc);
+            }
+        });
+    },
+    deleteList: (req, res) => {
+        let {token, listId} = req.body;
+
+        if (token && token.length && listId && listId.length) {
+            let id = decodeToken(token).token;
+            if (id && id.length) {
+                List.findOneAndDelete({listId: listId}, (err, doc) => {
+                    Todo.findByIdAndDelete({listId: listId}, (err, doc) => {
+                        return res.status(200).json({active: 0})
+                    })
+                })
+            } else {
+                return res.status(200).send('Error')
+            }
         }
     }
 };

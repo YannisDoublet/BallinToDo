@@ -3,7 +3,7 @@
 }
 
 #list_wrapper {
-    height: calc(100vh - 4.5rem);
+    min-height: calc(100vh - 4.5rem);
     padding: 0 5rem;
     display: flex;
     align-items: center;
@@ -12,7 +12,7 @@
 
 @media screen and (max-width: 600px) {
    #list_wrapper {
-       height: calc(100vh - 8rem);
+       height: 100%;
        padding: 0.75rem;
        flex-direction: column;
        overflow-y: scroll;

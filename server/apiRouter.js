@@ -7,13 +7,15 @@ exports.router = (function () {
 
     /* TODO ROUTES */
 
+    apiRouter.route('/addList').post(todoManager.addList);
     apiRouter.route('/addTodo').post(todoManager.addTodo);
-    apiRouter.route('/getList').get(todoManager.getList);
+    apiRouter.route('/getList').post(todoManager.getList);
     apiRouter.route('/getTodo').get(todoManager.getTodo);
     apiRouter.route('/changeListTitle').post(todoManager.changeListTitle);
     apiRouter.route('/changePriority').post(todoManager.changePriority);
     apiRouter.route('/changeStatus').post(todoManager.changeStatus);
     apiRouter.route('/eraseTodo').post(todoManager.eraseTodo);
+    apiRouter.route('/deleteList').post(todoManager.deleteList);
 
     /* USER ROUTES */
 

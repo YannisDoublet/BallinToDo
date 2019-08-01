@@ -8,7 +8,7 @@ const NavbarInput = (props) => {
     let dispatch = useDispatch();
     let list = useSelector(state => state.todo.todoList);
     let active = useSelector(state => state.todo.active);
-    let title = useSelector(state => state.todo.title)
+    let title = useSelector(state => state.todo.title);
     let [input, setInput] = useState('');
 
     useEffect(() => {
@@ -24,6 +24,7 @@ const NavbarInput = (props) => {
     const submitTitle = (e) => {
         e.preventDefault();
         dispatch(changeListTitle(input, list[active].listId));
+        document.querySelector('#navbar_input').blur();
     };
 
     return (
