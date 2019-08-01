@@ -18,7 +18,7 @@ module.exports = {
                         accId: Math.random().toString(36).substr(2, 9),
                         email: email,
                         password: password,
-                        validationToken: Math.random().toString(36).substr(2, 9),
+                        validationToken: validationToken,
                         validated: 0
                     });
                     newUser.save(err => {
