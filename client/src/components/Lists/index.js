@@ -10,10 +10,6 @@ class List extends Component {
         scrollDown: false
     };
 
-    componentDidMount() {
-        // this.props.dispatch(refreshTodo(localStorage.getItem('T')));
-    }
-
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevState.todo.length !== this.state.todo.length && this.state.scrollDown) {
             let objDiv = document.getElementById("todo_container");
@@ -30,7 +26,7 @@ class List extends Component {
             if (this.props.list && nextProps.active) {
                 let listId = this.props.list[nextProps.active] ? this.props.list[nextProps.active].listId : null;
                 if (listId) {
-                    this.props.dispatch(getTodo(this.props.list[nextProps.active].listId));
+                    this.props.dispatch(getTodo(listId));
                 }
             }
         } else if (nextProps.todo !== this.props.todo) {
